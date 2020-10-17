@@ -8,4 +8,5 @@ FBInstant.initializeAsync().then(function() {
     };
 
     new Phaser.Game(config);
+    
 });

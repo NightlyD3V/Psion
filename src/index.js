@@ -1,18 +1,13 @@
-import logoImg from "./assets/logo.png";
+import Phaser from 'phaser';
+import Boot from './boot';
+import HomeScene from './scenes/HomeScene';
 
-function preload() {
-  this.load.image("logo", logoImg);
+class Game extends Phaser.Game {
+  constructor() {
+    super(Boot);
+    this.scene.add('Game', HomeScene);
+    this.scene.start('Game');
+  }
 }
 
-function create() {
-  const logo = this.add.image(400, 150, "logo");
-
-  this.tweens.add({
-    targets: logo,
-    y: 450,
-    duration: 2000,
-    ease: "Power2",
-    yoyo: true,
-    loop: -1
-  });
-}
+new Game();
