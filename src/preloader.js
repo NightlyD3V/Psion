@@ -1,4 +1,5 @@
 import Phaser from 'phaser'; 
+import MenuScene from './scenes/MenuScene';
 
 class Preloader extends Phaser.Scene {
     constructor ()
@@ -10,13 +11,12 @@ class Preloader extends Phaser.Scene {
     {
         this.facebook.once('startgame', this.startGame, this);
         this.facebook.showLoadProgress(this);
-
         this.load.image('logo', 'src/assets/logo.png');
     }
 
     startGame ()
     {
-        this.scene.start('MainMenu');
+        this.scene.start(MenuScene);
     }
 }
 

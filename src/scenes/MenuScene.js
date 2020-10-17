@@ -9,7 +9,7 @@ class MenuScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo', './src/assets/logo.png');
+        this.load.image('logo', './src/assets/pitbull.png');
     }
 
     create() {
@@ -19,7 +19,7 @@ class MenuScene extends Phaser.Scene {
         
         this.tweens.add({
             targets: logo,
-            y: 450,
+            y: 350,
             duration: 2000,
             ease: "Power2",
             yoyo: true,

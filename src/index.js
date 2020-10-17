@@ -1,8 +1,6 @@
 import Phaser from 'phaser';
 import config from './config';
 import MenuScene from './scenes/MenuScene';
-import PlayerDeets from './playerDetails';
-import Preloader from './preloader';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -13,8 +11,17 @@ class Game extends Phaser.Game {
 }
 
 FBInstant.initializeAsync().then(function() {
-  FBInstant.setLoadingProgress(Preloader);
-  new Game();
+  let progress = 0;
+  let interval = setInterval(function() {
+    progress += 3;
+    FBInstant.setLoadingProgress(progress);
+    if(progress >= 95) {
+      clearInterval(interval)
+      FBInstant.startGameAsync().then(function() {
+        new Game();
+      })
+    }
+  },100)
 }).catch(function(error) {
   console.log(error.message);
 });
