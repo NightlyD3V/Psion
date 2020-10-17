@@ -10,3 +10,5 @@ FBInstant.initializeAsync().then(function() {
     new Phaser.Game(config);
     
 });
+
+export default boot;

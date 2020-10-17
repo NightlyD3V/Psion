@@ -28,3 +28,5 @@ class HomeScene extends Phaser.Scene {
         });
     }
 }
+
+export default HomeScene;
