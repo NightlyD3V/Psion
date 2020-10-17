@@ -1,13 +1,20 @@
 import Phaser from 'phaser';
-import Boot from './boot';
-import HomeScene from './scenes/HomeScene';
+import config from './config';
+import MenuScene from './scenes/MenuScene';
+import PlayerDeets from './playerDetails';
+import Preloader from './preloader';
 
 class Game extends Phaser.Game {
   constructor() {
-    super(Boot);
-    this.scene.add('Game', HomeScene);
+    super(config);
+    this.scene.add('Game', MenuScene);
     this.scene.start('Game');
   }
 }
 
-new Game();
+FBInstant.initializeAsync().then(function() {
+  FBInstant.setLoadingProgress(Preloader);
+  new Game();
+}).catch(function(error) {
+  console.log(error.message);
+});

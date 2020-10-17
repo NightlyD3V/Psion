@@ -1,14 +1,23 @@
+import Phaser from 'phaser'; 
+
 class Preloader extends Phaser.Scene {
-    constructor() {
+    constructor ()
+    {
         super('Preloader');
     }
 
-    create(){
+    preload ()
+    {
         this.facebook.once('startgame', this.startGame, this);
-        this.facebook.gameStarted();
+        this.facebook.showLoadProgress(this);
+
+        this.load.image('logo', 'src/assets/logo.png');
     }
 
-    startGame() {
+    startGame ()
+    {
         this.scene.start('MainMenu');
     }
 }
+
+export default Preloader;
