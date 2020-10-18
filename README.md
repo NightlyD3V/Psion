@@ -1,5 +1,5 @@
 # UX Design 
-![UX design image](https://github.com/NightlyD3v/Psion/main/src/assets/ux/PsionUX.png?raw=true)
+![UX design image](/main/src/assets/ux/PsionUX.png)
 
 # Phaser 3 Webpack Project Template
 
