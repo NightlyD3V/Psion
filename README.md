@@ -1,6 +1,6 @@
 # UX Design 
 <p>
-    <img src="/src/assets/ux/PsionUX.png" width="220" height="240" />
+    <img src="https://github.com/NightlyD3V/Psion/blob/main/src/assets/ux/PsionUX.PNG" width="220" height="240" />
 </p>
 
 # Phaser 3 Webpack Project Template
