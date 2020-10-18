@@ -1,5 +1,5 @@
 # UX Design 
-![UX design image](/src/assets/ux/PsionUX.png)
+![UX design image](Psion/src/assets/ux/PsionUX.png)
 
 # Phaser 3 Webpack Project Template
 
