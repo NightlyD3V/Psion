@@ -12,18 +12,30 @@ class MenuScene extends Phaser.Scene {
        const preloader = new Preloader();
        preloader.preload(this, 'image', 'logo', '../src/assets/pitbull.png');
        preloader.preload(this, 'image', 'start_button', '../src/assets/ui/start_button.png');
+       this.load.bitmapFont('square_font', '../src/assets/fonts/square.png', '../src/assets/fonts/square.xml');
     }
 
     create() {
+
         //Variables 
         const width = this.game.config.width;
         const height = this.game.config.height;
-        console.log(Phaser)
         //Change game background color
-        const color = Phaser.Display.Color.HexStringToColor('#95bacc');
+        const color = Phaser.Display.Color.HexStringToColor('#52a3a1');
         this.add.rectangle(width / 2, height / 2, width, height, color.color);
+
         //Assets 
-        const logo = this.add.image(width / 2, height / 2, 'logo');
+        //Bitmap text 
+        const logo = this.add.image(400, 250, 'logo');
+        const zendog = this.add.dynamicBitmapText(255, height / 2, 'square_font', 'ZenDog');
+        zendog.setDisplayCallback(textCallback);
+        function textCallback (data)
+        {
+            data.x = Phaser.Math.Between(data.x - 2, data.x + 2);
+            data.y = Phaser.Math.Between(data.y - 4, data.y + 4);
+            return data;
+        }
+
         const start_button = this.add.image(width / 2, height - 100, 'start_button');
         start_button.setScale(1.5);
         start_button.setInteractive();
@@ -31,14 +43,15 @@ class MenuScene extends Phaser.Scene {
             this.scene.switch('GameScene');
         }, this)
 
-        this.tweens.add({
-            targets: logo,
-            y: 350,
-            duration: 2000,
-            ease: "Power2",
-            yoyo: true,
-            loop: -1
-        });
+        //Animations
+        // this.tweens.add({
+        //     targets: logo,
+        //     y: 350,
+        //     duration: 2000,
+        //     ease: "Power2",
+        //     yoyo: true,
+        //     loop: -1
+        // });
     }
 }
 

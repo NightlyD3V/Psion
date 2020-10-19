@@ -3,11 +3,14 @@ import MenuScene from './scenes/MenuScene';
 import GameScene from './scenes/GameScene';
 
 const config =  {
-    mode: Phaser.Scale.FIT,
     type: Phaser.AUTO,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        parent: 'phaser-example',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 800,
+        height: window.innerHeight
+    },
     scene: [MenuScene, GameScene]
 };
 

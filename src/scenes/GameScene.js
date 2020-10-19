@@ -17,7 +17,7 @@ class GameScene extends Phaser.Scene {
         const width = this.game.config.width;
         const height = this.game.config.height;
         //Change game background color
-        const color = Phaser.Display.Color.HexStringToColor('#95bacc');
+        const color = Phaser.Display.Color.HexStringToColor('#4d222c');
         this.add.rectangle(width / 2, height / 2, width, height, color.color);
         this.add.image(width / 2, height / 2, 'logo');
         //Music 
