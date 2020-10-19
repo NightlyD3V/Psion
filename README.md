@@ -1,3 +1,9 @@
+# ZenDog Games
+
+<p>
+    <img src="https://github.com/NightlyD3V/Psion/blob/main/src/assets/pittlbull.PNG" />
+</p>
+
 # UX Design 
 <p>
     <img src="https://github.com/NightlyD3V/Psion/blob/main/src/assets/ux/PsionUX.PNG" />
