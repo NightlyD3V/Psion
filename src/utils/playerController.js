@@ -9,9 +9,11 @@ class PlayerController extends Phaser.Scene {
         //Define screen width & height
         const width = context.game.config.width;
         const height = context.game.config.height;
-        //Player { Animations }
-        context.player = context.physics.add.sprite(width / 2, 400, 'Emily');
+        //Player { Physics }
+        context.player = context.physics.add.sprite(250, 400, 'Emily');
+        context.player.setSize(38, 48, true);
         context.player.setCollideWorldBounds(true);
+        //Player { Animations }
         context.anims.create({
             key: 'idle',
             frameRate: 12, 
@@ -21,8 +23,13 @@ class PlayerController extends Phaser.Scene {
         context.anims.create({
             key: 'run',
             frameRate: 12,
-            frames: context.anims.generateFrameNumbers('Emily', { start: 3, end: 11 }),
+            frames: context.anims.generateFrameNumbers('Emily', { start: 3, end: 10 }),
             repeat: -1
+        })
+        context.anims.create({
+            key: 'jump',
+            frameRate: 12,
+            frames: context.anims.generateFrameNumbers('Emily', { start: 11, end: 12 })
         })
         //Player { Controls }
         context.cursors = context.input.keyboard.createCursorKeys();

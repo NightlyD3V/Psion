@@ -13,6 +13,7 @@ class GameScene extends Phaser.Scene {
         //Audio
         preloader.preload(this, 'audio', 'main', '../src/assets/audio/main.ogg');
         preloader.preload(this, 'audio', 'run_sound', '../src/assets/audio/run.ogg')
+        preloader.preload(this, 'audio', 'jump_sound', '../src/assets/audio/jump.ogg');
         //UI
         preloader.preload(this, 'image', 'pause_button', '../src/assets/ui/pause_button.png');
         //Sprites 
@@ -30,6 +31,8 @@ class GameScene extends Phaser.Scene {
         //World 
         let platforms = this.physics.add.staticGroup();
         platforms.create(width / 2, 480, 'bricks');
+        platforms.create(20, 450, 'bricks');
+        platforms.create(500, 350, 'bricks');
         //Instaniate player controller
         const Emily = new PlayerController();
         Emily.create(this)
@@ -38,6 +41,7 @@ class GameScene extends Phaser.Scene {
         this.physics.world.gravity.y = 90;
         //Sound effects 
         this.runSound = this.sound.add('run_sound');
+        this.jumpSound = this.sound.add('jump_sound');
         this.input.keyboard.on(('keydown-A') , () => {
             this.runSound.play({ loop: true });
         });
@@ -45,26 +49,28 @@ class GameScene extends Phaser.Scene {
             this.runSound.play({ loop: true });
         });
         //Music 
-        const music = this.sound.add('main',);
-        music.play({ loop: true  })
+        setTimeout(() => {
+            const music = this.sound.add('main',);
+            music.play({ loop: true  })
+        }, 1000)
         //Buttons 
-        const pause_button = this.add.image(width - 100, height - 100, 'pause_button');
-        pause_button.setScale(0.1, 0.1);
+        // const pause_button = this.add.image(width - 100, height - 100, 'pause_button');
+        // pause_button.setScale(0.1, 0.1);
     }
 
     update() {
-        //Player { Controls }    
+        //Player { Controls }  
         if (this.cursors.left.isDown || this.keyA.isDown)
         {
             //Player run 
             this.player.setVelocityX(-160);
-            this.player.setScale(1, 1);
+            this.player.flipX = false;
             this.player.anims.play('run', true);
         }
         else if (this.cursors.right.isDown || this.keyD.isDown)
         {
             this.player.setVelocityX(160);
-            this.player.setScale(-1, 1);
+            this.player.flipX = true;
             this.player.anims.play('run', true);
         }
         else
@@ -75,8 +81,13 @@ class GameScene extends Phaser.Scene {
         }
         if (this.Space.isDown && this.player.body.touching.down)
         {
-            this.player.setVelocityY(-100);
+            this.player.setVelocityY(-200);
             this.player.body.setGravity(0, 50);
+            this.jumpSound.play();
+        }
+        if (!this.player.body.touching.down) {
+            this.player.anims.play('jump', true);
+            this.runSound.stop();
         }
     }
 }
