@@ -1,6 +1,5 @@
 import 'phaser';
 import Preloader from '../preloader';
-import GameScene from './GameScene';
 
 class MenuScene extends Phaser.Scene {
     constructor() {
@@ -8,7 +7,6 @@ class MenuScene extends Phaser.Scene {
     }
 
     preload() {
-       console.log(this);
        const preloader = new Preloader();
        preloader.preload(this, 'image', 'logo', '../src/assets/pitbull.png');
        preloader.preload(this, 'image', 'start_button', '../src/assets/ui/start_button.png');
@@ -26,8 +24,9 @@ class MenuScene extends Phaser.Scene {
 
         //Assets 
         //Bitmap text 
-        const logo = this.add.image(400, 250, 'logo');
-        const zendog = this.add.dynamicBitmapText(255, height / 2, 'square_font', 'ZenDog');
+        const logo = this.add.image(250, 200, 'logo');
+        logo.setScale(0.5, 0.5);
+        const zendog = this.add.dynamicBitmapText(125, 280, 'square_font', 'ZenDog');
         zendog.setDisplayCallback(textCallback);
         function textCallback (data)
         {
@@ -36,8 +35,7 @@ class MenuScene extends Phaser.Scene {
             return data;
         }
 
-        const start_button = this.add.image(width / 2, height - 100, 'start_button');
-        start_button.setScale(1.5);
+        const start_button = this.add.image(width / 2, 370, 'start_button');
         start_button.setInteractive();
         start_button.on('pointerdown', function(pointer) {
             this.scene.switch('GameScene');
