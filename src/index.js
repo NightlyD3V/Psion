@@ -1,11 +1,12 @@
 import Phaser from 'phaser';
 import config from './config';
 import MenuScene from './scenes/MenuScene';
+import PlayerDetails from './playerDetails';
 
 class Game extends Phaser.Game {
   constructor() {
     super(config);
-    this.scene.add('Game', MenuScene);
+    this.scene.add('Game', MenuScene(this));
     this.scene.start('Game');
   }
 }

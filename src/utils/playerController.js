@@ -10,7 +10,7 @@ class PlayerController extends Phaser.Scene {
         const width = context.game.config.width;
         const height = context.game.config.height;
         //Player { Physics }
-        context.player = context.physics.add.sprite(250, 400, 'Emily');
+        context.player = context.physics.add.sprite(20, 400, 'Emily');
         context.player.setSize(38, 48, true);
         context.player.setCollideWorldBounds(true);
         //Player { Animations }

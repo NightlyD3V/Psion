@@ -1,4 +1,4 @@
-import Phaser from 'phaser';  
+import { FacebookInstantGamesLeaderboard } from "phaser";
 
 class PlayerDetails extends Phaser.Scene {
 
@@ -7,15 +7,15 @@ class PlayerDetails extends Phaser.Scene {
         super({ key: 'PlayerDetails', active: false });
     }
 
-    create ()
+    create (context)
     {
-        this.add.bitmapText(400, 400, 'azo', this.facebook.playerName).setOrigin(0.5);
+        const player_name = FBInstant.player.getName();
+        context.add.text(10,10,`Hello, ${player_name}!`, { fontFamily: 'Arial', fontSize: 24, color: '#ffff' });
+    }
 
-        this.load.image('player', this.facebook.playerPhotoURL);
-
-        this.load.once('filecomplete-image-player', this.addPlayerPhoto, this);
-
-        this.load.start();
+    addPlayerPhoto (key)
+    {
+        this.add.image(400, 200, key);
     }
 
     addPlayerPhoto (key)

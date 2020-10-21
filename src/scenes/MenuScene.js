@@ -1,5 +1,6 @@
 import 'phaser';
 import Preloader from '../preloader';
+import PlayerDetails from '../playerDetails';
 
 class MenuScene extends Phaser.Scene {
     constructor() {
@@ -21,8 +22,10 @@ class MenuScene extends Phaser.Scene {
         //Change game background color
         const color = Phaser.Display.Color.HexStringToColor('#52a3a1');
         this.add.rectangle(width / 2, height / 2, width, height, color.color);
-
-        //Assets 
+        //*Assets* 
+        //Facebook data 
+        const newPlayer = new PlayerDetails();
+        newPlayer.create(this);
         //Bitmap text 
         const logo = this.add.image(250, 200, 'logo');
         logo.setScale(0.5, 0.5);

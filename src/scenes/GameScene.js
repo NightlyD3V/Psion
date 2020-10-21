@@ -1,4 +1,5 @@
 import 'phaser';
+import { Tilemaps } from 'phaser';
 import Preloader from '../preloader';
 import PlayerController from '../utils/playerController';
 
@@ -19,6 +20,8 @@ class GameScene extends Phaser.Scene {
         //Sprites 
         this.load.spritesheet('Emily', '../src/assets/characters/Emily_animation.png', { frameWidth: 48, frameHeight: 48 })
         preloader.preload(this, 'image', 'bricks', '../src/assets/world/bricks2.png');
+        //Pickups
+        this.load.spritesheet('pickup1', '../src/assets/world/pickup1.png', { frameWidth: 48, frameHeight: 48 }); 
     }
 
     create() {
@@ -31,14 +34,27 @@ class GameScene extends Phaser.Scene {
         //World 
         let platforms = this.physics.add.staticGroup();
         platforms.create(width / 2, 480, 'bricks');
-        platforms.create(20, 450, 'bricks');
-        platforms.create(500, 350, 'bricks');
+        platforms.create(-50, 450, 'bricks').body.setSize(500, 30, true);;
+        platforms.create(500, 350, 'bricks').body.setSize(500, 30, true);;
+        platforms.create(600, 250, 'bricks').body.setSize(500, 30, true);;
+        platforms.create(-50, 300, 'bricks').body.setSize(500, 30, true);;
         //Instaniate player controller
         const Emily = new PlayerController();
         Emily.create(this)
+        //Pick-ups 
+        this.pickup = this.physics.add.staticSprite(250, 100, 'pickup1');
+        this.pickup.setSize(16, 16, true)
+        this.pickup.setCircle(8);
+        this.anims.create({
+            key: 'pickup1_anim',
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers('pickup1', { start: 0, end: 2 }),
+            repeat: -1 
+        })
         //Physics 
         this.physics.add.collider(this.player, platforms);
-        this.physics.world.gravity.y = 90;
+        this.physics.add.collider(this.player, this.pickup)
+        this.physics.world.gravity.y = 100;
         //Sound effects 
         this.runSound = this.sound.add('run_sound');
         this.jumpSound = this.sound.add('jump_sound');
@@ -56,6 +72,9 @@ class GameScene extends Phaser.Scene {
         //Buttons 
         // const pause_button = this.add.image(width - 100, height - 100, 'pause_button');
         // pause_button.setScale(0.1, 0.1);
+        //Score tracker 
+        let score = 0;
+        this.add.text(10, 10, `Score: ${score}`)
     }
 
     update() {
@@ -81,14 +100,17 @@ class GameScene extends Phaser.Scene {
         }
         if (this.Space.isDown && this.player.body.touching.down)
         {
-            this.player.setVelocityY(-200);
+            this.player.setVelocityY(-180);
             this.player.body.setGravity(0, 50);
             this.jumpSound.play();
         }
         if (!this.player.body.touching.down) {
             this.player.anims.play('jump', true);
             this.runSound.stop();
+
         }
+        //Pickups 
+        this.pickup.anims.play('pickup1_anim', true);
     }
 }
 
