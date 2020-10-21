@@ -1,7 +1,7 @@
 import 'phaser';
-import { Tilemaps } from 'phaser';
 import Preloader from '../preloader';
 import PlayerController from '../utils/playerController';
+import Interface from './UI';
 
 
 class GameScene extends Phaser.Scene {
@@ -11,12 +11,13 @@ class GameScene extends Phaser.Scene {
 
     preload() {
         const preloader = new Preloader();
+        //UI
+        preloader.preload(this, 'image', 'pause_button', '../src/assets/ui/pause_button.png');
         //Audio
         preloader.preload(this, 'audio', 'main', '../src/assets/audio/main.ogg');
         preloader.preload(this, 'audio', 'run_sound', '../src/assets/audio/run.ogg')
         preloader.preload(this, 'audio', 'jump_sound', '../src/assets/audio/jump.ogg');
-        //UI
-        preloader.preload(this, 'image', 'pause_button', '../src/assets/ui/pause_button.png');
+        preloader.preload(this, 'audio', 'pickup_1', '../src/assets/audio/pickup_1.ogg');
         //Sprites 
         this.load.spritesheet('Emily', '../src/assets/characters/Emily_animation.png', { frameWidth: 48, frameHeight: 48 })
         preloader.preload(this, 'image', 'bricks', '../src/assets/world/bricks2.png');
@@ -28,19 +29,27 @@ class GameScene extends Phaser.Scene {
         //Define screen width & height
         const width = this.game.config.width;
         const height = this.game.config.height;
+        //Camera 
+        this.cameras.main.fadeIn(2000);
+        this.cameras.main.setBounds(0,0,500,800);
+        this.cameras.main.setViewport(0, 200, 500, 200);
         //Change game background color
         const color = Phaser.Display.Color.HexStringToColor('4e495f');
         this.add.rectangle(width / 2, height / 2, width, height, color.color);
         //World 
         let platforms = this.physics.add.staticGroup();
         platforms.create(width / 2, 480, 'bricks');
-        platforms.create(-50, 450, 'bricks').body.setSize(500, 30, true);;
-        platforms.create(500, 350, 'bricks').body.setSize(500, 30, true);;
-        platforms.create(600, 250, 'bricks').body.setSize(500, 30, true);;
-        platforms.create(-50, 300, 'bricks').body.setSize(500, 30, true);;
+        platforms.create(-50, 450, 'bricks').body.setSize(500, 30, true);
+        platforms.create(500, 350, 'bricks').body.setSize(500, 30, true);
+        platforms.create(600, 250, 'bricks').body.setSize(500, 30, true);
+        platforms.create(-50, 300, 'bricks').body.setSize(500, 30, true);
+        //Insantiate UI
+        const UserInterface = new Interface();
+        UserInterface.create(this)
         //Instaniate player controller
         const Emily = new PlayerController();
         Emily.create(this)
+        this.cameras.main.startFollow(this.player);
         //Pick-ups 
         this.pickup = this.physics.add.staticSprite(250, 100, 'pickup1');
         this.pickup.setSize(16, 16, true)
@@ -51,9 +60,23 @@ class GameScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('pickup1', { start: 0, end: 2 }),
             repeat: -1 
         })
+        this.pickup.anims.play('pickup1_anim', true);
         //Physics 
+        let theGame = this.scene.get('GameScene');
         this.physics.add.collider(this.player, platforms);
-        this.physics.add.collider(this.player, this.pickup)
+        this.physics.add.collider(this.player, this.pickup, function(player, pickup) {
+            //Add new score 
+            theGame.events.emit('addScore');
+            //Play fx
+            theGame.pickup_1 = theGame.sound.add('pickup_1');
+            theGame.pickup_1.play();
+            //Reposition camera
+            theGame.cameras.main.fadeIn(4000);
+            theGame.cameras.main.stopFollow();
+            theGame.cameras.main.setViewport(0, 0, 500, height);
+            //Destroy pickup
+            pickup.destroy();
+        })
         this.physics.world.gravity.y = 100;
         //Sound effects 
         this.runSound = this.sound.add('run_sound');
@@ -69,12 +92,6 @@ class GameScene extends Phaser.Scene {
             const music = this.sound.add('main',);
             music.play({ loop: true  })
         }, 1000)
-        //Buttons 
-        // const pause_button = this.add.image(width - 100, height - 100, 'pause_button');
-        // pause_button.setScale(0.1, 0.1);
-        //Score tracker 
-        let score = 0;
-        this.add.text(10, 10, `Score: ${score}`)
     }
 
     update() {
@@ -109,8 +126,6 @@ class GameScene extends Phaser.Scene {
             this.runSound.stop();
 
         }
-        //Pickups 
-        this.pickup.anims.play('pickup1_anim', true);
     }
 }
 
