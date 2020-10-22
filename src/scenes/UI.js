@@ -1,5 +1,4 @@
-import 'phaser';
-import Preloader from '../preloader';
+import Phaser from 'phaser';
 
 class UI extends Phaser.Scene {
     constructor() {
@@ -11,6 +10,8 @@ class UI extends Phaser.Scene {
         //Create text
         let text = context.add.text(10, 10, 'Score: 0');
         text.setScrollFactor(0);
+        let lives = context.add.text(400, 10, "Lives: 3");
+        lives.setScrollFactor(0);
         //Reference scene 
         let theGame = context.scene.get('GameScene');
         //Listen for events 

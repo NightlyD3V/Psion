@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import Preloader from '../preloader';
 import PlayerDetails from '../playerDetails';
 
@@ -41,7 +41,9 @@ class MenuScene extends Phaser.Scene {
         const start_button = this.add.image(width / 2, 370, 'start_button');
         start_button.setInteractive();
         start_button.on('pointerdown', function(pointer) {
-            this.scene.switch('GameScene');
+            this.scene.start('StoryInterstitial', {
+                target: 'GameScene'
+            });
         }, this)
 
         //Animations

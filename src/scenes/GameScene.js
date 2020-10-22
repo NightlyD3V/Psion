@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import Preloader from '../preloader';
 import PlayerController from '../utils/playerController';
 import Interface from './UI';
@@ -62,7 +62,7 @@ class GameScene extends Phaser.Scene {
         })
         this.pickup.anims.play('pickup1_anim', true);
         //Physics 
-        let theGame = this.scene.get('GameScene');
+        const theGame = this;
         this.physics.add.collider(this.player, platforms);
         this.physics.add.collider(this.player, this.pickup, function(player, pickup) {
             //Add new score 
@@ -82,15 +82,25 @@ class GameScene extends Phaser.Scene {
         this.runSound = this.sound.add('run_sound');
         this.jumpSound = this.sound.add('jump_sound');
         this.input.keyboard.on(('keydown-A') , () => {
-            this.runSound.play({ loop: true });
-        });
+            theGame.runSound.play({ 
+                loop: true,
+                volume: 0.5 
+            });
+        })
         this.input.keyboard.on(('keydown-D') , () => {
-            this.runSound.play({ loop: true });
+            theGame.runSound.play({ 
+                loop: true ,
+                volume: 0.5
+            });
         });
         //Music 
         setTimeout(() => {
             const music = this.sound.add('main',);
-            music.play({ loop: true  })
+            music.play({ 
+                loop: true,
+                volume: 0.3,
+                detune: -100
+            })
         }, 1000)
     }
 
@@ -113,7 +123,7 @@ class GameScene extends Phaser.Scene {
         {
             this.player.setVelocityX(0);
             this.player.anims.play('idle', true);
-            this.runSound.stop();
+            this.runSound.pause();
         }
         if (this.Space.isDown && this.player.body.touching.down)
         {
@@ -123,9 +133,11 @@ class GameScene extends Phaser.Scene {
         }
         if (!this.player.body.touching.down) {
             this.player.anims.play('jump', true);
-            this.runSound.stop();
-
+            this.runSound.pause();
         }
+        if((this.keyA.isDown || this.keyD.isDown) && this.player.body.touching.down) {
+            this.runSound.resume();
+        };
     }
 }
 

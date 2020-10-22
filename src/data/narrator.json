@@ -1,0 +1,18 @@
+{
+    "name": "narrator",
+    "dialogues": 
+    [
+        {
+        "introduction": 
+            [
+            "Hello, Friend...",
+            "If you are reading this then it is probably too late...",    
+            "There's little time so I'm going to explain this as fast as I can.", 
+            "I was a psychic soldier for [redacted] until they pushed me too far.",
+            "I've jumped between realms and my psyche has been shattered",
+            "I need your help to peice it back together." 
+            ]
+        }
+    ]
+}
+

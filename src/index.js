@@ -19,6 +19,7 @@ FBInstant.initializeAsync().then(function() {
     if(progress >= 95) {
       clearInterval(interval)
       FBInstant.startGameAsync().then(function() {
+        console.log(FBInstant.context);
         new Game();
       })
     }

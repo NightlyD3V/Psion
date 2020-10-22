@@ -1,5 +1,4 @@
-import 'phaser';
-import Preloader from '../preloader';
+import Phaser from 'phaser';
 
 class HighScores extends Phaser.Scene {
     constructor() {
@@ -11,7 +10,7 @@ class HighScores extends Phaser.Scene {
     }
 
     create() {
-    
+
     }
 
     update() {

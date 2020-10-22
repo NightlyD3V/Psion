@@ -1,5 +1,3 @@
-import { FacebookInstantGamesLeaderboard } from "phaser";
-
 class PlayerDetails extends Phaser.Scene {
 
     constructor ()
