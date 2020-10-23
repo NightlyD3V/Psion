@@ -7,11 +7,23 @@ class UI extends Phaser.Scene {
     }
 
     create(context) {
-        //Create text
+        //Score text 
         let text = context.add.text(10, 10, 'Score: 0');
         text.setScrollFactor(0);
-        let lives = context.add.text(400, 10, "Lives: 3");
-        lives.setScrollFactor(0);
+        //lives
+        let hearts_arr = [];
+        let x = 440;
+        for(let i=0; i<3; i++) {
+            let heart = context.add.sprite(x, 20, 'hearts').setFrame(0);
+            heart.setScrollFactor(0);
+            heart.setFrame(0);
+            heart.setScale(0.5, 0.5);
+            hearts_arr.push(heart);
+            //context.hearts_arr.anims.play('heart_anim', true);
+            x += 20;
+        }
+        console.log(hearts_arr);
+        //context.hearts.anims.play('heart_anim', true);
         //Reference scene 
         let theGame = context.scene.get('GameScene');
         //Listen for events 

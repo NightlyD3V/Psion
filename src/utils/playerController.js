@@ -12,7 +12,7 @@ class PlayerController extends Phaser.Scene {
         //Player { Physics }
         context.player = context.physics.add.sprite(20, 400, 'Emily');
         context.player.setSize(38, 48, true);
-        context.player.setCollideWorldBounds(true);
+        //context.player.setCollideWorldBounds(true);
         //Player { Animations }
         context.anims.create({
             key: 'idle',

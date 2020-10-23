@@ -3,6 +3,18 @@ import Preloader from '../preloader';
 import PlayerController from '../utils/playerController';
 import Interface from './UI';
 
+//Globals 
+const makePlatforms = (scene, platforms, repeat, texture, scrollFactor) => {
+    //const width = scene.textures.get(texture).getSourceImage().width
+    //const totalWidth = scene.scale.width * 10;
+    let x = 0;
+    for(let i=0; i < repeat; i++) {
+        let platform = platforms.create(x, 500, texture);
+        platform.body.setSize(500, 30, true);
+        platform.setScrollFactor(scrollFactor);
+        x += platform.width;
+    }
+}
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -21,6 +33,8 @@ class GameScene extends Phaser.Scene {
         //Sprites 
         this.load.spritesheet('Emily', '../src/assets/characters/Emily_animation.png', { frameWidth: 48, frameHeight: 48 })
         preloader.preload(this, 'image', 'bricks', '../src/assets/world/bricks2.png');
+        preloader.preload(this, 'image', 'background', '../src/assets/world/background.png');
+        this.load.spritesheet('hearts', '../src/assets/ui/hearts.png', { frameWidth: 32, frameHeight: 32 });
         //Pickups
         this.load.spritesheet('pickup1', '../src/assets/world/pickup1.png', { frameWidth: 48, frameHeight: 48 }); 
     }
@@ -31,18 +45,15 @@ class GameScene extends Phaser.Scene {
         const height = this.game.config.height;
         //Camera 
         this.cameras.main.fadeIn(2000);
-        this.cameras.main.setBounds(0,0,500,800);
+        //this.cameras.main.setBounds(0,0,500,500);
         this.cameras.main.setViewport(0, 200, 500, 200);
         //Change game background color
-        const color = Phaser.Display.Color.HexStringToColor('4e495f');
-        this.add.rectangle(width / 2, height / 2, width, height, color.color);
+        this.add.image(0, 300, 'background')
+        .setScrollFactor(0, 1)
+        .setOrigin(0, 0);
         //World 
-        let platforms = this.physics.add.staticGroup();
-        platforms.create(width / 2, 480, 'bricks');
-        platforms.create(-50, 450, 'bricks').body.setSize(500, 30, true);
-        platforms.create(500, 350, 'bricks').body.setSize(500, 30, true);
-        platforms.create(600, 250, 'bricks').body.setSize(500, 30, true);
-        platforms.create(-50, 300, 'bricks').body.setSize(500, 30, true);
+        const platforms = this.physics.add.staticGroup();
+        makePlatforms(this, platforms, 10, 'bricks', 1);
         //Insantiate UI
         const UserInterface = new Interface();
         UserInterface.create(this)
@@ -51,7 +62,7 @@ class GameScene extends Phaser.Scene {
         Emily.create(this)
         this.cameras.main.startFollow(this.player);
         //Pick-ups 
-        this.pickup = this.physics.add.staticSprite(250, 100, 'pickup1');
+        this.pickup = this.physics.add.staticSprite(250, 450, 'pickup1');
         this.pickup.setSize(16, 16, true)
         this.pickup.setCircle(8);
         this.anims.create({
@@ -61,7 +72,7 @@ class GameScene extends Phaser.Scene {
             repeat: -1 
         })
         this.pickup.anims.play('pickup1_anim', true);
-        //Physics 
+        /**Physics**/ 
         const theGame = this;
         this.physics.add.collider(this.player, platforms);
         this.physics.add.collider(this.player, this.pickup, function(player, pickup) {
@@ -71,9 +82,8 @@ class GameScene extends Phaser.Scene {
             theGame.pickup_1 = theGame.sound.add('pickup_1');
             theGame.pickup_1.play();
             //Reposition camera
-            theGame.cameras.main.fadeIn(4000);
-            theGame.cameras.main.stopFollow();
-            theGame.cameras.main.setViewport(0, 0, 500, height);
+            theGame.cameras.main.fadeIn(1000);
+            //theGame.cameras.main.setViewport(0, 0, width, height);
             //Destroy pickup
             pickup.destroy();
         })
@@ -102,6 +112,12 @@ class GameScene extends Phaser.Scene {
                 detune: -100
             })
         }, 1000)
+        //Pause / unpause game with escape key 
+        // let paused = false;
+        // this.input.keyboard.on('keydown-ESC', function (event) {
+        //     theGame.scene.pause();
+        //     pause = true;
+        // });
     }
 
     update() {
@@ -127,7 +143,7 @@ class GameScene extends Phaser.Scene {
         }
         if (this.Space.isDown && this.player.body.touching.down)
         {
-            this.player.setVelocityY(-180);
+            this.player.setVelocityY(-130);
             this.player.body.setGravity(0, 50);
             this.jumpSound.play();
         }

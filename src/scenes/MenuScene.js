@@ -41,9 +41,10 @@ class MenuScene extends Phaser.Scene {
         const start_button = this.add.image(width / 2, 370, 'start_button');
         start_button.setInteractive();
         start_button.on('pointerdown', function(pointer) {
-            this.scene.start('StoryInterstitial', {
-                target: 'GameScene'
-            });
+            this.scene.start('GameScene');
+            // this.scene.start('StoryInterstitial', {
+            //     target: 'GameScene'
+            // });
         }, this)
 
         //Animations
